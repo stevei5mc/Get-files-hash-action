@@ -1,0 +1,51 @@
+﻿name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  Test :
+    strategy:
+      matrix:
+        include: [
+          {name: "ubuntu",os: ubuntu-latest},
+          {name: "windows",os: windows-latest},
+          {name: "macos",os: macos-latest}
+        ]
+    runs-on: ${{ matrix.os }}
+    name: Test for ${{ matrix.name }}
+    steps:
+    - run: mkdir hash-files
+    - name: Download for Kazumi 1.5.3
+      uses: robinraju/release-downloader@v1.11
+      with:
+        repository: 'Predidit/Kazumi'
+        tag: '1.5.3'
+        fileName: '*'
+        out-file-path: 'test'
+    - name: Download for Kazumi 1.5.4
+      uses: robinraju/release-downloader@v1.11
+      with:
+        repository: 'Predidit/Kazumi'
+        tag: '1.5.4'
+        fileName: '*'
+        out-file-path: 'test'
+    - name: Download for Kazumi 1.5.5
+      uses: robinraju/release-downloader@v1.11
+      with:
+        repository: 'Predidit/Kazumi'
+        tag: '1.5.3'
+        fileName: '*'
+        out-file-path: 'test'
+    - name: 获取文件hash
+      uses: stevei5mc/Get-files-hash-action@v1
+      with:
+        targetFilesPath: './test/*.*'
+        hashListFileSaveName: 'TEST'
+        hashFileFileSavePath: './hash-files'
+    - name: 收集构建文件
+      uses: actions/upload-artifact@v4.3.3
+      with:
+        name: Test_${{ github.run_number}}
+        path: hash-files
