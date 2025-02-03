@@ -34,6 +34,10 @@ inputs:
     description: "Get files hash for sha512"
     required: false
     default: 'true'
+  printHashToHashListFileName:
+    description: "Print Hash to hash list file name"
+    required: false
+    default: 'true'
 
 runs:
   using: 'composite'
@@ -41,26 +45,27 @@ runs:
     - name: Print inputs info
       shell: bash
       run: |
-        echo ${{ inputs.targetFilesPath }}
-        echo ${{ inputs.hashListFileSaveName }}
-        echo ${{ inputs.hashFileFileSavePath }}
-        echo ${{ inputs.getMd5 }}
-        echo ${{ inputs.getSha1 }}
-        echo ${{ inputs.getSha256 }}
-        echo ${{ inputs.getSha512 }}
+        echo Target file path: ${{ inputs.targetFilesPath }}
+        echo Hash list file save name: ${{ inputs.hashListFileSaveName }}
+        echo Hash list file save path: ${{ inputs.hashFileFileSavePath }}
+        echo Get Md5: ${{ inputs.getMd5 }}
+        echo Get Sha1: ${{ inputs.getSha1 }}
+        echo Get Sha256: ${{ inputs.getSha256 }}
+        echo Get Sha512: ${{ inputs.getSha512 }}
+        echo Print Hash to hash list file name: ${{ inputs.printHashToHashListFileName }}
     - name: "Get files md5"
       shell: bash
       if: ${{ inputs.getMd5 }}
-      run: bash ./GetHashMd5.sh
+      run: bash ./GetHashMd5.sh "${{ inputs.targetFilesPath }}" "${{ inputs.hashListFileSaveName }}" "${{ inputs.hashFileFileSavePath }}" "${{ inputs.printHashToHashListFileName }}"
     - name: "Get files Sha1"
       shell: bash
       if: ${{ inputs.getMd5 }}
-      run: bash ./GetHashSha1.sh
+      run: bash ./GetHashSha1.sh "${{ inputs.targetFilesPath }}" "${{ inputs.hashListFileSaveName }}" "${{ inputs.hashFileFileSavePath }}" "${{ inputs.printHashToHashListFileName }}"
     - name: "Get files Sha256"
       shell: bash
       if: ${{ inputs.getSha256 }}
-      run: bash ./GetHashSha256.sh
+      run: bash ./GetHashSha256.sh "${{ inputs.targetFilesPath }}" "${{ inputs.hashListFileSaveName }}" "${{ inputs.hashFileFileSavePath }}" "${{ inputs.printHashToHashListFileName }}"
     - name: "Get files Sha512"
       shell: bash
       if: ${{ inputs.getSha512 }}
-      run: bash ./GetHashSha512.sh
+      run: bash ./GetHashSha512.sh "${{ inputs.targetFilesPath }}" "${{ inputs.hashListFileSaveName }}" "${{ inputs.hashFileFileSavePath }}" "${{ inputs.printHashToHashListFileName }}"

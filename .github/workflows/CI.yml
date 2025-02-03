@@ -17,6 +17,7 @@ jobs:
     name: Test for ${{ matrix.name }}
     steps:
     - run: mkdir hash-files
+      shell: bash
     - name: Download for Kazumi 1.5.3
       uses: robinraju/release-downloader@v1.11
       with:
@@ -44,6 +45,7 @@ jobs:
         targetFilesPath: './test/*.*'
         hashListFileSaveName: 'TEST'
         hashFileFileSavePath: './hash-files'
+        getSha1: false
     - name: 收集构建文件
       uses: actions/upload-artifact@v4.3.3
       with:
