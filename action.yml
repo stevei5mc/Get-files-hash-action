@@ -53,6 +53,8 @@ runs:
         echo Get Sha256: ${{ inputs.getSha256 }}
         echo Get Sha512: ${{ inputs.getSha512 }}
         echo Print Hash to hash list file name: ${{ inputs.printHashToHashListFileName }}
+    - run: mkdir ${{ inputs.hashFileFileSavePath }}
+      shell: bash
     - name: "Get files md5"
       shell: bash
       if: ${{ inputs.getMd5 }}
