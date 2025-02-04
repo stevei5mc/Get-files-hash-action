@@ -17,8 +17,6 @@ jobs:
     name: Test for ${{ matrix.name }}
     steps:
     - uses: actions/checkout@v4
-    - run: mkdir hash-files
-      shell: bash
     - name: Download for Kazumi 1.5.3
       uses: robinraju/release-downloader@v1.11
       with:
