@@ -36,11 +36,12 @@ jobs:
       uses: robinraju/release-downloader@v1.11
       with:
         repository: 'Predidit/Kazumi'
-        tag: '1.5.3'
+        tag: '1.5.5'
         fileName: '*'
         out-file-path: 'test'
+    - run: ls -la test
     - name: 获取文件hash
-      uses: stevei5mc/Get-files-hash-action@v1
+      uses: ./
       with:
         targetFilesPath: './test/*.*'
         hashListFileSaveName: 'TEST'
