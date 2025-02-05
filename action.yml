@@ -64,7 +64,7 @@ runs:
         md5sum ${{ inputs.targetFilesPath }} | tee "$hashListFiles"
         if [ "${{ inputs.printHashToHashListFileName }}" == "true" ]; then
         hashListFilesHash=$(md5sum "$hashListFiles"|awk '{print $1}')
-        hashListFileName2=${{ inputs.hashListFileSaveName }}-md5-$hashListFilesHash.txt
+        hashListFileName2=${{ inputs.hashListFileSaveName }}-md5-"$hashListFilesHash".txt
         hashListFile2=${{ inputs.hashFileFileSavePath }}/$hashListFileName2.txt
         mv "$hashListFiles" "$hashListFiles2"
         fi
