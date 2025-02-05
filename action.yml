@@ -91,7 +91,7 @@ runs:
         echo ==================== Start get Sha256 ====================
         sha256sum ${{ inputs.targetFilesPath }} | tee "$hashListFiles"
         if [ "${{ inputs.printHashToHashListFileName }}" == "true" ]; then
-        hashListFilesHash=$(sha256 "$hashListFiles"|awk '{print $1}')
+        hashListFilesHash=$(sha256sum "$hashListFiles"|awk '{print $1}')
         hashListFileName2=${{ inputs.hashListFileSaveName }}-sha256-"$hashListFilesHash".txt
         hashListFiles2=${{ inputs.hashFileFileSavePath }}/"$hashListFileName2".txt
         mv "$hashListFiles" "$hashListFiles2"
@@ -105,7 +105,7 @@ runs:
         echo ==================== Start get Sha512 ====================
         sha512sum ${{ inputs.targetFilesPath }} | tee "$hashListFiles"
         if [ "${{ inputs.printHashToHashListFileName }}" == "true" ]; then
-        hashListFilesHash=$(sha512 "$hashListFiles"|awk '{print $1}')
+        hashListFilesHash=$(sha512sum "$hashListFiles"|awk '{print $1}')
         hashListFileName2=${{ inputs.hashListFileSaveName }}-sha512-"$hashListFilesHash".txt
         hashListFiles2=${{ inputs.hashFileFileSavePath }}/"$hashListFileName2".txt
         mv "$hashListFiles" "$hashListFiles2"
