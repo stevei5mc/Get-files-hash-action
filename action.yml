@@ -1,0 +1,84 @@
+name: 'Maven GAV Extractor'
+
+author: stevei5mc
+description: 'Get files hash action'
+
+branding:
+  icon: 'file-text'
+  color: 'orange'
+
+inputs:
+  targetFilesPath:
+    description: 'Target file path'
+    required: true
+  hashListFileSaveName:
+    description: 'Hash list file save name'
+    required: true
+    default: "target"
+  hashFileFileSavePath:
+    description: "Hash list file save path"
+    required: true
+  getMd5:
+    description: "Get files hash for md5"
+    required: false
+    default: 'true'
+  getSha1:
+    description: "Get files hash for sha1"
+    required: false
+    default: 'true'
+  getSha256:
+    description: "Get files hash for sha256"
+    required: false
+    default: 'true'
+  getSha512:
+    description: "Get files hash for sha512"
+    required: false
+    default: 'true'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Print inputs info
+      shell: bash
+      run: |
+        echo Target file path: ${{ inputs.targetFilesPath }}
+        echo Hash list file save name: ${{ inputs.hashListFileSaveName }}
+        echo Hash list file save path: ${{ inputs.hashFileFileSavePath }}
+        echo Get Md5: ${{ inputs.getMd5 }}
+        echo Get Sha1: ${{ inputs.getSha1 }}
+        echo Get Sha256: ${{ inputs.getSha256 }}
+        echo Get Sha512: ${{ inputs.getSha512 }}
+    - run: mkdir -p ${{ inputs.hashFileFileSavePath }}
+      shell: bash
+    - name: "Get files md5"
+      shell: bash
+      if: ${{ inputs.getMd5 }}
+      run: |
+        hashListFiles=${{ inputs.hashFileFileSavePath }}/${{ inputs.hashListFileSaveName }}.md5
+        echo ==================== Start get md5 ====================
+        md5sum ${{ inputs.targetFilesPath }} | tee "$hashListFiles"
+        echo ==================== Md5 get over ====================
+    - name: "Get files Sha1"
+      shell: bash
+      if: ${{ inputs.getSha1 }}
+      run: |
+        hashListFiles=${{ inputs.hashFileFileSavePath }}/${{ inputs.hashListFileSaveName }}.sha1
+        echo ==================== Start get Sha1 ====================
+        sha1sum ${{ inputs.targetFilesPath }} | tee "$hashListFiles"
+        echo ==================== Sha1 get over ====================
+    - name: "Get files Sha256"
+      shell: bash
+      if: ${{ inputs.getSha256 }}
+      run: |
+        hashListFiles=${{ inputs.hashFileFileSavePath }}/${{ inputs.hashListFileSaveName }}.sha256
+        echo ==================== Start get Sha256 ====================
+        sha256sum ${{ inputs.targetFilesPath }} | tee "$hashListFiles"
+        echo ==================== Sha256 get over ====================
+    - name: "Get files Sha512"
+      shell: bash
+      if: ${{ inputs.getSha512 }}
+      run: |
+        hashListFiles=${{ inputs.hashFileFileSavePath }}/${{ inputs.hashListFileSaveName }}.sha512
+        echo ==================== Start get Sha512 ====================
+        sha512sum ${{ inputs.targetFilesPath }} | tee "$hashListFiles"
+        echo ==================== Sha512 get over ====================
